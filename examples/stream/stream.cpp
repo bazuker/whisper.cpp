@@ -385,7 +385,6 @@ int main(int argc, char ** argv) {
 
     auto t_last  = std::chrono::high_resolution_clock::now();
     const auto t_start = t_last;
-    int pause_ms = 0;
 
     // main audio loop
     while (is_running) {
@@ -452,11 +451,7 @@ int main(int argc, char ** argv) {
 
             if (::vad_simple(pcmf32_new, WHISPER_SAMPLE_RATE, 1000, params.vad_thold, params.freq_thold, false)) {
                 audio.get(params.length_ms, pcmf32);
-                pause_ms = 0;
-                //printf("clear\n");
             } else {
-                pause_ms += 100;
-                //printf("sleep %d\n", pause_ms);
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
                 continue;
